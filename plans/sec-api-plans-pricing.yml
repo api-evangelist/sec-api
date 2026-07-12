@@ -1,0 +1,203 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: SEC API
+providerId: sec-api
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- SEC Filings
+- Regulatory Filings
+- EDGAR
+- Financial Data
+- Plans
+description: >-
+  SEC API (sec-api.io) is a commercial, subscription SaaS on top of the SEC's
+  free, public EDGAR data. A one-time free trial of 100 API calls (no credit
+  card) is offered for evaluation. Paid subscriptions are Personal & Startups at
+  $55/month (or $49/month billed annually) and Business Internal Use at
+  $239/month (or $199/month billed annually), each including a single API token,
+  a monthly free data-download allowance, and per-second query rate limits that
+  scale by tier. An Enterprise & Institutions tier adds multiple tokens,
+  customizable rate limits, redistribution licensing, and priority support at
+  custom pricing. Prices were grounded against the sec-api.io pricing page on
+  2026-07-11; verify current numbers before relying on them.
+notes: >-
+  All tiers reach the same 400+ EDGAR form types and historical filings back to
+  1993. The Full-Text Search API and specialized datasets (Form 13F, insider
+  trading, executive compensation) are called out on the Business tier. Verify
+  current tiers, rate limits, and data-download allowances on the sec-api.io
+  pricing page during reconciliation.
+sources:
+- https://sec-api.io/pricing
+- https://sec-api.io/docs
+plans:
+- id: sec-api-free-trial
+  name: Free Trial
+  type: free
+  description: >-
+    One-time allocation of 100 API calls for evaluation, no credit card
+    required. Limited access to the core APIs.
+  entries:
+  - label: Trial API Calls
+    name: trial_api_calls
+    type: usage
+    metric: requests
+    limit: 100
+    timeFrame: lifetime
+    geo: global
+    unit: 1
+    price: '0.00'
+    userMultiplied: false
+  elements:
+  - name: Filing Query API
+  - name: Full-Text Search API
+  - name: XBRL-to-JSON Converter
+  - name: Filing Stream API
+- id: sec-api-personal-startups
+  name: Personal & Startups
+  type: paid
+  description: >-
+    For individual developers, professors, PhD researchers, and early-stage
+    startups under 5 employees. Includes 1 API token, historical filings from
+    1993 to present, all 400+ EDGAR form types, and a 50 GB free monthly data
+    download allowance.
+  entries:
+  - label: Monthly Subscription
+    name: personal_monthly
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '55.00'
+    userMultiplied: false
+  - label: Monthly Subscription (billed annually)
+    name: personal_monthly_annual
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '49.00'
+    userMultiplied: false
+  - label: Query API Rate Limit
+    name: personal_query_rate
+    type: usage
+    metric: requests
+    limit: 20
+    timeFrame: second
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Included Monthly Data Download
+    name: personal_data_download
+    type: usage
+    metric: bytes
+    limit: 53687091200
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: included
+    userMultiplied: false
+  elements:
+  - name: 1 API Token
+  - name: All 400+ EDGAR Form Types
+  - name: Historical Filings 1993-Present
+  - name: Filing Stream API
+- id: sec-api-business
+  name: Business Internal Use
+  type: paid
+  description: >-
+    For equity research, hedge funds, law firms, investment advisors, and
+    buy/sell-side analysts. Includes 1 API token, a 100 GB free monthly data
+    download allowance, higher rate limits, and access to specialized datasets
+    such as Form 13F, insider trading, and executive compensation.
+  entries:
+  - label: Monthly Subscription
+    name: business_monthly
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '239.00'
+    userMultiplied: false
+  - label: Monthly Subscription (billed annually)
+    name: business_monthly_annual
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '199.00'
+    userMultiplied: false
+  - label: Query API Rate Limit
+    name: business_query_rate
+    type: usage
+    metric: requests
+    limit: 40
+    timeFrame: second
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Full-Text Search Rate Limit
+    name: business_fts_rate
+    type: usage
+    metric: requests
+    limit: 20
+    timeFrame: second
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Included Monthly Data Download
+    name: business_data_download
+    type: usage
+    metric: bytes
+    limit: 107374182400
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: included
+    userMultiplied: false
+  elements:
+  - name: 1 API Token
+  - name: Form 13F Dataset
+  - name: Insider Trading Dataset
+  - name: Executive Compensation Dataset
+- id: sec-api-enterprise
+  name: Enterprise & Institutions
+  type: enterprise
+  description: >-
+    For exchanges, brokers, data providers, and institutional users requiring
+    resale/redistribution. Multiple API tokens, customizable rate limits, custom
+    data volume, redistribution licenses, priority support, and custom terms.
+    Institutions may receive up to 3 months free access during onboarding
+    evaluation.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Multiple API Tokens
+  - name: Customizable Rate Limits
+  - name: Redistribution License
+  - name: Priority Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

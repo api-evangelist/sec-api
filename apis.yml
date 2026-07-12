@@ -1,0 +1,186 @@
+aid: sec-api
+url: https://raw.githubusercontent.com/api-evangelist/sec-api/refs/heads/main/apis.yml
+name: SEC API
+kind: company
+description: SEC API (sec-api.io) is a commercial developer platform that turns the
+  U.S. Securities and Exchange Commission's EDGAR system into a fast, queryable REST
+  and real-time streaming API. It covers 18+ million filings back to 1993 across
+  400+ EDGAR form types, with a Lucene-based Filing Query API, a Full-Text Search
+  API over filing bodies and exhibits since 2001, an XBRL-to-JSON financial statement
+  converter, a section Extractor for 10-K/10-Q/8-K, and structured datasets for
+  insider trading (Form 3/4/5), institutional holdings (Form 13F), 13D/13G, Form D,
+  Form ADV, IPOs, and more. A real-time Filing Stream API pushes newly published
+  filings to clients over a WebSocket connection as soon as they hit EDGAR. Access
+  is via a single API token passed as an Authorization header or a token query
+  parameter.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- SEC Filings
+- Regulatory Filings
+- EDGAR
+- Financial Data
+- Compliance
+- Government Reports
+- Insider Trading
+- 13F
+- XBRL
+- Full-Text Search
+created: '2026-07-11'
+modified: '2026-07-11'
+specificationVersion: '0.19'
+apis:
+- aid: sec-api:sec-api-filing-query-api
+  name: SEC API Filing Query API
+  tags:
+  - SEC Filings
+  - EDGAR
+  - Regulatory Filings
+  - Filing Search
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/query-api
+  baseURL: https://api.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs
+    type: Documentation
+  - url: https://sec-api.io/docs/query-api
+    type: APIReference
+  - url: openapi/sec-api-openapi.yml
+    type: OpenAPI
+  description: Search and filter 18+ million EDGAR filings (1993-present) across
+    400+ form types using Lucene syntax over filing metadata - form type, ticker,
+    CIK, company name, filing date, and more. POST a query to receive matching
+    filing metadata with document URLs, entities, and data files.
+- aid: sec-api:sec-api-full-text-search-api
+  name: SEC API Full-Text Search API
+  tags:
+  - Full-Text Search
+  - Regulatory Filings
+  - Government Reports
+  - EDGAR
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/full-text-search-api
+  baseURL: https://api.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs/full-text-search-api
+    type: APIReference
+  - url: openapi/sec-api-openapi.yml
+    type: OpenAPI
+  description: Keyword and phrase search across the full text of all EDGAR filings
+    and their exhibits published since 2001, with wildcard and Boolean operators,
+    form-type and CIK filters, and date-range scoping. Returns filing metadata and
+    document URLs for every matching document.
+- aid: sec-api:sec-api-filing-stream-api
+  name: SEC API Filing Stream API
+  tags:
+  - Real-Time
+  - Streaming
+  - WebSocket
+  - EDGAR
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/stream-api
+  baseURL: wss://stream.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs/stream-api
+    type: Documentation
+  - url: asyncapi/sec-api-asyncapi.yml
+    type: AsyncAPI
+  description: Real-time, push-based WebSocket feed of newly published SEC EDGAR
+    filings. Connect to wss://stream.sec-api.io with an API key and receive a
+    stringified JSON array of filing metadata objects the moment each new filing is
+    released, typically within 300 milliseconds of publication.
+- aid: sec-api:sec-api-xbrl-to-json-api
+  name: SEC API XBRL-to-JSON Converter API
+  tags:
+  - XBRL
+  - Financial Data
+  - Financial Statements
+  - Regulatory Filings
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/xbrl-to-json-converter-api
+  baseURL: https://api.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs/xbrl-to-json-converter-api
+    type: APIReference
+  - url: openapi/sec-api-openapi.yml
+    type: OpenAPI
+  description: Converts the XBRL financial data embedded in 10-K, 10-Q, and other
+    filings into standardized JSON - income statement, balance sheet, cash flow,
+    cover page, and custom items - addressable by filing HTM URL, XBRL URL, or
+    accession number via a simple GET request.
+- aid: sec-api:sec-api-extractor-api
+  name: SEC API Extractor API
+  tags:
+  - Text Extraction
+  - Regulatory Filings
+  - Government Reports
+  - 10-K
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/sec-filings-item-extraction-api
+  baseURL: https://api.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs/sec-filings-item-extraction-api
+    type: APIReference
+  - url: openapi/sec-api-openapi.yml
+    type: OpenAPI
+  description: Extracts individual textual sections (items) from 10-K, 10-Q, and 8-K
+    filings - for example 10-K Item 1A Risk Factors or Item 7 MD&A - returning
+    clean plain text or lightly formatted HTML for a given filing URL and item
+    identifier.
+- aid: sec-api:sec-api-insider-trading-api
+  name: SEC API Insider Trading API
+  tags:
+  - Insider Trading
+  - Regulatory Filings
+  - Financial Data
+  - Compliance
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/insider-ownership-trading-api
+  baseURL: https://api.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs/insider-ownership-trading-api
+    type: APIReference
+  - url: openapi/sec-api-openapi.yml
+    type: OpenAPI
+  description: Structured, queryable insider transaction data parsed from SEC Form
+    3, 4, and 5 filings - issuer, reporting owner and relationship, non-derivative
+    and derivative transactions, prices, share counts, post-transaction holdings,
+    and footnotes - searchable with Lucene syntax over any field.
+- aid: sec-api:sec-api-form-13f-holdings-api
+  name: SEC API Form 13F Holdings API
+  tags:
+  - 13F
+  - Institutional Holdings
+  - Financial Data
+  - Regulatory Filings
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sec-api.io/docs/form-13-f-filings-institutional-holdings-api
+  baseURL: https://api.sec-api.io
+  properties:
+  - url: https://sec-api.io/docs/form-13-f-filings-institutional-holdings-api
+    type: APIReference
+  - url: openapi/sec-api-openapi.yml
+    type: OpenAPI
+  description: Quarterly portfolio holdings of institutional investment managers
+    disclosed in Form 13F filings, exposed as two endpoints - holdings information
+    tables (CUSIP, ticker, shares, value per position) and cover pages - both
+    searchable with Lucene queries over accession number, manager, and filing date.
+common:
+- type: DomainSecurity
+  url: security/sec-api-domain-security.yml
+- type: Authentication
+  url: authentication/sec-api-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/sec-api-io
+- type: Website
+  url: https://sec-api.io
+- type: Documentation
+  url: https://sec-api.io/docs
+- type: Plans
+  url: plans/sec-api-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/sec-api-rate-limits.yml
+- type: FinOps
+  url: finops/sec-api-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

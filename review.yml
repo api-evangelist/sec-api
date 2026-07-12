@@ -1,0 +1,106 @@
+aid: sec-api
+name: SEC API
+review:
+  question: Does SEC API expose a documented public WebSocket API?
+  answer: true
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    SEC API (sec-api.io) publishes a real-time Filing Stream API that is an
+    explicit, documented public WebSocket endpoint (wss://stream.sec-api.io).
+    An AsyncAPI 2.6 document was authored at asyncapi/sec-api-asyncapi.yml
+    modeling the WebSocket connection and the newFilings message it pushes.
+    The rest of the platform (Filing Query, Full-Text Search, XBRL-to-JSON,
+    Extractor, Insider Trading, Form 13F, and the other form/dataset APIs) is
+    request/response REST over HTTPS and is modeled in the companion OpenAPI
+    document at openapi/sec-api-openapi.yml.
+findings:
+  summary: |
+    Yes. SEC API exposes a documented public WebSocket API: the Filing Stream
+    API. Per https://sec-api.io/docs/stream-api, clients connect to
+    wss://stream.sec-api.io?apiKey=YOUR_API_KEY over a raw WebSocket
+    connection (not Socket.IO) and the server pushes a stringified JSON array
+    of newly published EDGAR filing metadata objects the instant each filing
+    is released. The server sends a WebSocket ping every 25 seconds and
+    expects a pong within 5 seconds. This is a genuine server-push,
+    bidirectional-capable WebSocket transport, distinct from the platform's
+    REST APIs.
+  accessModel: |
+    SEC API is a commercial, closed-source SaaS that normalizes the SEC's
+    free, public EDGAR data into REST and streaming APIs. Authentication is a
+    single API token passed as an `Authorization` header or `?token=` query
+    parameter on REST calls, and as an `apiKey` query parameter on the
+    WebSocket URL. A one-time 100-call free trial is offered; paid access
+    starts at $55/month (Personal & Startups) and $239/month (Business).
+  transports:
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://stream.sec-api.io
+      documented: true
+      note: >-
+        Filing Stream API. Raw WebSocket, not Socket.IO. Auth via
+        apiKey query parameter. Server pushes newly published filing
+        metadata as a stringified JSON array; 25s ping / 5s pong keepalive.
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.sec-api.io
+      documented: true
+      note: >-
+        Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider
+        Trading, Form 13F, and all other form/dataset endpoints. Request/
+        response JSON over HTTPS. Auth via Authorization header or token query
+        parameter.
+    - protocol: REST
+      scheme: https
+      baseURL: https://archive.sec-api.io
+      documented: true
+      note: Download API for original filing HTML/document files.
+  endpointsConfirmedRest:
+    - POST https://api.sec-api.io
+    - POST https://api.sec-api.io/full-text-search
+    - GET  https://api.sec-api.io/xbrl-to-json
+    - GET  https://api.sec-api.io/extractor
+    - POST https://api.sec-api.io/insider-trading
+    - POST https://api.sec-api.io/form-13f/holdings
+    - POST https://api.sec-api.io/form-13f/cover-pages
+  endpointsConfirmedWebSocket:
+    - wss://stream.sec-api.io?apiKey=YOUR_API_KEY
+sources:
+  - url: https://sec-api.io/docs
+    type: Documentation
+    note: Product index listing Filing Query, Full-Text Search, Filing Stream, XBRL, Extractor, and form/dataset APIs.
+  - url: https://sec-api.io/docs/query-api
+    type: APIReference
+    note: Filing Query API - POST https://api.sec-api.io, Lucene query, Authorization header or token query param.
+  - url: https://sec-api.io/docs/full-text-search-api
+    type: APIReference
+    note: Full-Text Search API - POST https://api.sec-api.io/full-text-search over filings and exhibits since 2001.
+  - url: https://sec-api.io/docs/stream-api
+    type: Documentation
+    note: Filing Stream API - wss://stream.sec-api.io WebSocket, raw WS (not Socket.IO), apiKey query param, 25s ping / 5s pong.
+  - url: https://sec-api.io/docs/xbrl-to-json-converter-api
+    type: APIReference
+    note: XBRL-to-JSON Converter - GET https://api.sec-api.io/xbrl-to-json by htm-url, xbrl-url, or accession-no.
+  - url: https://sec-api.io/docs/sec-filings-item-extraction-api
+    type: APIReference
+    note: Extractor API - GET https://api.sec-api.io/extractor with url and item parameters for 10-K/10-Q/8-K sections.
+  - url: https://sec-api.io/docs/insider-ownership-trading-api
+    type: APIReference
+    note: Insider Trading API - POST https://api.sec-api.io/insider-trading over Form 3/4/5 data.
+  - url: https://sec-api.io/docs/form-13-f-filings-institutional-holdings-api
+    type: APIReference
+    note: Form 13F Holdings and Cover Pages - POST https://api.sec-api.io/form-13f/holdings and /form-13f/cover-pages.
+  - url: https://sec-api.io/pricing
+    type: Pricing
+    note: Free trial (100 calls), Personal & Startups $55/mo, Business $239/mo, Enterprise custom.
+actions:
+  asyncapiPath: asyncapi/sec-api-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    A documented public WebSocket surface exists (the Filing Stream API at
+    wss://stream.sec-api.io), so an AsyncAPI 2.6 document was authored to
+    model the WebSocket server, the filings channel, and the newFilings
+    push message. The REST APIs are modeled separately in the OpenAPI
+    document, and the AsyncAPI file documents the WebSocket transport
+    explicitly so it is never conflated with the REST surface.

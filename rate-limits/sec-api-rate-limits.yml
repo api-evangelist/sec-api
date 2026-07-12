@@ -1,0 +1,85 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: SEC API
+providerId: sec-api
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- SEC Filings
+- Regulatory Filings
+- EDGAR
+- Rate Limiting
+- Quotas
+description: >-
+  SEC API (sec-api.io) governs throughput with per-second request limits that
+  scale by subscription tier, plus a monthly free data-download allowance. On
+  the Personal & Startups tier the Query API is limited to 20 requests/second;
+  on Business Internal Use the Query API rises to 40 requests/second and the
+  Full-Text Search API is limited to 20 requests/second. The Free Trial is a
+  one-time 100-call allocation rather than a per-second limit. Enterprise rate
+  limits are customizable. The real-time Filing Stream API is a push WebSocket
+  and is not governed by a per-request rate limit. Numbers were grounded against
+  the sec-api.io pricing page on 2026-07-11; verify current values before
+  relying on them.
+notes: >-
+  Rate limits are enforced per API token. Requests over the plan limit are
+  throttled; clients should implement exponential backoff with jitter. Verify
+  current per-second limits and monthly data-download allowances on the
+  sec-api.io pricing page during reconciliation.
+sources:
+- https://sec-api.io/pricing
+- https://sec-api.io/docs
+- https://sec-api.io/docs/stream-api
+responseCodes:
+  throttled: 429
+limits:
+- name: Free Trial Calls
+  scope: account
+  metric: requests
+  limit: 100 total (one-time)
+  notes: One-time evaluation allocation, not a per-second limit.
+- name: Query API - Personal & Startups
+  scope: token
+  metric: requests
+  limit: 20 per second
+  notes: Filing Query API on the Personal & Startups tier.
+- name: Query API - Business
+  scope: token
+  metric: requests
+  limit: 40 per second
+  notes: Filing Query API on the Business Internal Use tier.
+- name: Full-Text Search - Business
+  scope: token
+  metric: requests
+  limit: 20 per second
+  notes: Full-Text Search API rate on the Business Internal Use tier.
+- name: Enterprise Rate Limits
+  scope: account
+  metric: requests
+  limit: customizable
+  notes: Negotiated per Enterprise agreement.
+- name: Monthly Data Download (Personal)
+  scope: account
+  metric: bytes
+  limit: 50 GB per month included
+  notes: Free monthly data-download allowance on Personal & Startups.
+- name: Monthly Data Download (Business)
+  scope: account
+  metric: bytes
+  limit: 100 GB per month included
+  notes: Free monthly data-download allowance on Business Internal Use.
+- name: Filing Stream API
+  scope: connection
+  metric: messages
+  limit: push (no per-request rate limit)
+  notes: WebSocket push feed; server pings every 25s and expects a pong within 5s.
+policies:
+- name: Backoff Strategy
+  description: On a 429 response, back off with exponential delay and jitter before retrying, and stay within your plan's per-second limit.
+- name: WebSocket Keepalive
+  description: The Filing Stream server sends a ping every 25 seconds and expects a pong within 5 seconds; respond to pings (most libraries do so automatically) to avoid disconnection.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

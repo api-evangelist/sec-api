@@ -1,0 +1,25 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI + WebSocket hosts
+hosts:
+- host: sec-api.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 12 23:59:59 2026 GMT
+  hsts: false
+- host: api.sec-api.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 12 23:59:59 2026 GMT
+  hsts: false
+- host: stream.sec-api.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 12 23:59:59 2026 GMT
+  hsts: false
+domains:
+- domain: sec-api.io
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

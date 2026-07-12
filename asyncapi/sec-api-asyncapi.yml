@@ -1,0 +1,161 @@
+asyncapi: '2.6.0'
+id: 'urn:io:sec-api:stream:filings:websocket'
+info:
+  title: SEC API Filing Stream (WebSocket)
+  version: '1.0.0'
+  description: |
+    AsyncAPI 2.6 description of the SEC API (sec-api.io) **Filing Stream API**,
+    a documented public **WebSocket** surface.
+
+    Per https://sec-api.io/docs/stream-api, clients open a raw WebSocket
+    connection (not Socket.IO) to `wss://stream.sec-api.io` with their API key
+    supplied as the `apiKey` query parameter. Whenever one or more new filings
+    are published to SEC EDGAR, the server pushes a single message whose payload
+    is a **stringified JSON array** of filing metadata objects, typically within
+    a few hundred milliseconds of publication.
+
+    The server sends a WebSocket ping every 25 seconds and expects a pong within
+    5 seconds; most WebSocket libraries answer pings automatically.
+
+    This is a genuine server-push WebSocket transport and is distinct from SEC
+    API's request/response REST endpoints (Filing Query, Full-Text Search,
+    XBRL-to-JSON, Extractor, Insider Trading, Form 13F), which are modeled in the
+    companion OpenAPI document at `openapi/sec-api-openapi.yml`.
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: API documentation - SEC API Terms of Service
+    url: https://sec-api.io/terms-of-service
+  x-transport-notes:
+    transport: WebSocket
+    protocol: wss
+    library: raw WebSocket (not Socket.IO)
+    direction: server-to-client (push)
+    url: 'wss://stream.sec-api.io?apiKey=YOUR_API_KEY'
+    keepAlive: server ping every 25s, expects pong within 5s
+    payload: stringified JSON array of filing metadata objects
+    source: https://sec-api.io/docs/stream-api
+defaultContentType: application/json
+servers:
+  stream:
+    url: stream.sec-api.io
+    protocol: wss
+    description: |
+      SEC API real-time Filing Stream WebSocket endpoint. Connect to
+      `wss://stream.sec-api.io?apiKey=YOUR_API_KEY`. Authentication is the
+      `apiKey` query parameter carrying your sec-api.io API token.
+    security:
+      - apiKey: []
+channels:
+  /:
+    description: |
+      The single WebSocket channel. After the connection is established the
+      server pushes a `newFilings` message each time one or more filings are
+      published to SEC EDGAR. The client does not send application messages; it
+      only receives.
+    bindings:
+      ws:
+        bindingVersion: '0.1.0'
+        query:
+          type: object
+          properties:
+            apiKey:
+              type: string
+              description: Your sec-api.io API token.
+          required:
+            - apiKey
+    subscribe:
+      operationId: receiveNewFilings
+      summary: Receive newly published EDGAR filings in real time.
+      description: |
+        Subscribe to the push stream of newly published filings. Each message
+        payload is a stringified JSON array; parse it to obtain one or more
+        filing metadata objects, each carrying accessionNo, formType, cik,
+        ticker, companyName, filedAt, entities, documentFormatFiles, and
+        dataFiles.
+      message:
+        $ref: '#/components/messages/NewFilings'
+components:
+  securitySchemes:
+    apiKey:
+      type: httpApiKey
+      in: query
+      name: apiKey
+      description: |
+        SEC API token passed as the `apiKey` query parameter on the WebSocket
+        connection URL (`wss://stream.sec-api.io?apiKey=YOUR_API_KEY`).
+  messages:
+    NewFilings:
+      name: newFilings
+      title: Newly published filings
+      summary: |
+        One push message emitted when new filings appear on SEC EDGAR. The raw
+        payload on the wire is a stringified JSON array; clients must JSON.parse
+        it into an array of filing metadata objects.
+      contentType: application/json
+      payload:
+        type: array
+        description: Array of filing metadata objects.
+        items:
+          $ref: '#/components/schemas/Filing'
+      examples:
+        - name: singleFiling
+          summary: A single new 8-K filing pushed to the stream
+          payload:
+            - accessionNo: '0001193125-26-000123'
+              formType: '8-K'
+              cik: '320193'
+              ticker: 'AAPL'
+              companyName: 'Apple Inc.'
+              filedAt: '2026-07-11T16:05:22-04:00'
+              entities:
+                - companyName: 'Apple Inc. (Filer)'
+                  cik: '320193'
+              documentFormatFiles:
+                - type: '8-K'
+                  documentUrl: 'https://www.sec.gov/Archives/edgar/data/320193/000119312526000123/d123.htm'
+              dataFiles: []
+  schemas:
+    Filing:
+      type: object
+      description: Metadata for one filing, as pushed on the stream.
+      properties:
+        accessionNo:
+          type: string
+          description: Unique accession number identifying the filing.
+        formType:
+          type: string
+          description: EDGAR form type, e.g. 8-K, 10-K, 4.
+        cik:
+          type: string
+          description: SEC Central Index Key of the primary filer.
+        ticker:
+          type: string
+          description: Trading symbol, when available.
+        companyName:
+          type: string
+          description: Name of the primary filing entity.
+        filedAt:
+          type: string
+          format: date-time
+          description: Timestamp the filing was published on EDGAR (ISO 8601).
+        entities:
+          type: array
+          description: Entities associated with the filing.
+          items:
+            type: object
+            additionalProperties: true
+        documentFormatFiles:
+          type: array
+          description: Primary and exhibit documents in the filing.
+          items:
+            type: object
+            additionalProperties: true
+        dataFiles:
+          type: array
+          description: Data files (e.g. XBRL) attached to the filing.
+          items:
+            type: object
+            additionalProperties: true

@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SEC API (sec-api.io) REST API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "Authorization",
+        "value": "{{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Filing Query", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Search EDGAR filings by metadata", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io",
+            "body": { "type": "json", "data": "{\"query\":\"formType:\\\"10-Q\\\"\",\"from\":\"0\",\"size\":\"50\",\"sort\":[{\"filedAt\":{\"order\":\"desc\"}}]}" }
+          },
+          "docs": "Search 18M+ EDGAR filings (1993-present) across 400+ form types using Lucene syntax over filing metadata."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Full-Text Search", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Full-text search across filings and exhibits", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io/full-text-search",
+            "body": { "type": "json", "data": "{\"query\":\"\\\"climate change\\\"\",\"formTypes\":[\"8-K\",\"10-K\"],\"startDate\":\"2024-01-01\",\"endDate\":\"2024-12-31\",\"page\":\"1\"}" }
+          },
+          "docs": "Keyword and phrase search across the full text of all EDGAR filings and exhibits published since 2001."
+        }
+      ]
+    },
+    {
+      "info": { "name": "XBRL-to-JSON", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Convert filing XBRL to JSON", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sec-api.io/xbrl-to-json?accession-no=0001564590-21-004599",
+            "params": [
+              { "name": "accession-no", "value": "0001564590-21-004599", "type": "query", "description": "Filing accession number. Alternatively use htm-url or xbrl-url." }
+            ]
+          },
+          "docs": "Convert the XBRL financial data in a filing into standardized JSON financial statements."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Extractor", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Extract a section (item) from a filing", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sec-api.io/extractor?url=FILING_URL&item=1A&type=text",
+            "params": [
+              { "name": "url", "value": "FILING_URL", "type": "query", "description": "Full URL of the filing document on SEC EDGAR." },
+              { "name": "item", "value": "1A", "type": "query", "description": "Section identifier, e.g. 10-K Item 1A (Risk Factors)." },
+              { "name": "type", "value": "text", "type": "query", "description": "Response format: text or html." }
+            ]
+          },
+          "docs": "Extract a single textual section from a 10-K, 10-Q, or 8-K filing."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Insider Trading", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Query insider transactions (Form 3/4/5)", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io/insider-trading",
+            "body": { "type": "json", "data": "{\"query\":\"issuer.tradingSymbol:TSLA\",\"from\":\"0\",\"size\":\"50\",\"sort\":[{\"filedAt\":{\"order\":\"desc\"}}]}" }
+          },
+          "docs": "Search structured insider transaction data parsed from SEC Form 3, 4, and 5 filings."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Form 13F", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Query Form 13F holdings", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io/form-13f/holdings",
+            "body": { "type": "json", "data": "{\"query\":\"accessionNo:\\\"0001067983-23-000012\\\"\",\"from\":\"0\",\"size\":\"50\"}" }
+          },
+          "docs": "Search quarterly institutional portfolio holdings from Form 13F filings (CUSIP, ticker, shares, value)."
+        },
+        {
+          "info": { "name": "Query Form 13F cover pages", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io/form-13f/cover-pages",
+            "body": { "type": "json", "data": "{\"query\":\"filedAt:[2024-01-01 TO 2024-03-31]\",\"from\":\"0\",\"size\":\"50\"}" }
+          },
+          "docs": "Search Form 13F cover-page metadata (manager, report period, filing details)."
+        }
+      ]
+    }
+  ]
+}

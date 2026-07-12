@@ -1,0 +1,83 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: SEC API
+providerId: sec-api
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- SEC Filings
+- Regulatory Filings
+- EDGAR
+- Financial Data
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of SEC API (sec-api.io) spend. SEC API is a flat-rate subscription
+  SaaS: predictable monthly (or discounted annual) fees per tier, rather than
+  pure per-call metering. The dominant cost drivers are the chosen plan
+  (Personal & Startups at $55/month, Business Internal Use at $239/month, or a
+  custom Enterprise contract) and staying within each plan's per-second request
+  limits and monthly free data-download allowance (50 GB Personal, 100 GB
+  Business). Overuse pressures an upgrade to a higher tier or Enterprise terms
+  rather than incurring granular per-call overage. The underlying SEC EDGAR data
+  is free and public; the fee buys the query, full-text, XBRL, dataset, and
+  real-time streaming layer.
+notes: >-
+  Per-unit overage rates and exact data-download overage handling are not fully
+  published; verify on the sec-api.io pricing page. Redistribution of the data
+  requires an Enterprise license.
+sources:
+- https://sec-api.io/pricing
+- https://sec-api.io/docs
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: SEC API
+serviceCategory: Financial Data and Regulatory Filings
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+meters:
+- name: subscription
+  description: Flat monthly or annual subscription fee for the chosen plan tier.
+  unit: subscription
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: api_requests
+  description: API requests made against the per-second plan rate limit.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - token
+  - endpoint
+- name: data_download
+  description: Data downloaded against the monthly free allowance (50 GB Personal, 100 GB Business).
+  unit: bytes
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track requests per token and endpoint against the per-second plan limit, and monitor monthly data download against the included allowance.
+- name: Allocation
+  description: Use separate tokens (Enterprise) or tag internal workloads so filing-query, full-text, and dataset usage map to teams and cost centers.
+- name: Optimization
+  description: Cache filing metadata and XBRL JSON that rarely changes; scope Lucene queries and full-text searches tightly; use the WebSocket stream instead of polling to reduce request volume; right-size the plan tier to actual request rate and data volume.
+- name: Accountability
+  description: Assign an owner for the SEC API subscription; review monthly whether request rate and data download justify the current tier versus an upgrade or Enterprise contract.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
