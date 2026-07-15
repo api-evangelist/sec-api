@@ -165,6 +165,8 @@ apis:
     tables (CUSIP, ticker, shares, value per position) and cover pages - both
     searchable with Lucene queries over accession number, manager, and filing date.
 common:
+- type: AgenticAccess
+  url: agentic-access/sec-api-agentic-access.yml
 - type: DomainSecurity
   url: security/sec-api-domain-security.yml
 - type: Authentication
