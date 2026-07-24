@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: SEC API (sec-api.io) REST Extractor XBRL API
+  description: 'REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.
+
+    Authentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.'
+  version: '1.0'
+  contact:
+    name: SEC API
+    url: https://sec-api.io
+  license:
+    name: API documentation - SEC API Terms of Service
+    url: https://sec-api.io/terms-of-service
+servers:
+- url: https://api.sec-api.io
+  description: SEC API REST base
+security:
+- apiKeyHeader: []
+- apiKeyQuery: []
+tags:
+- name: XBRL
+  description: Convert XBRL financial data in filings to standardized JSON.
+paths:
+  /xbrl-to-json:
+    get:
+      operationId: xbrlToJson
+      tags:
+      - XBRL
+      summary: Convert filing XBRL to JSON
+      description: Parse the XBRL financial data embedded in a filing into standardized JSON (income statement, balance sheet, cash flow, cover page, and custom items). Supply exactly one of htm-url, xbrl-url, or accession-no.
+      parameters:
+      - name: htm-url
+        in: query
+        required: false
+        description: URL of the filing's primary document, ending in .htm or .html.
+        schema:
+          type: string
+      - name: xbrl-url
+        in: query
+        required: false
+        description: Direct URL of the filing's XBRL instance file, ending in .xml.
+        schema:
+          type: string
+      - name: accession-no
+        in: query
+        required: false
+        description: Filing accession number, e.g. 0001564590-21-004599.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: XBRL financial data as JSON, organized by statement.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed directly in the Authorization header (no `Bearer` prefix), e.g. `Authorization: YOUR_API_KEY`.'
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: API key passed as the `token` query parameter.

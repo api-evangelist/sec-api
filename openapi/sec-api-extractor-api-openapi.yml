@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: SEC API (sec-api.io) REST Extractor API
+  description: 'REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.
+
+    Authentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.'
+  version: '1.0'
+  contact:
+    name: SEC API
+    url: https://sec-api.io
+  license:
+    name: API documentation - SEC API Terms of Service
+    url: https://sec-api.io/terms-of-service
+servers:
+- url: https://api.sec-api.io
+  description: SEC API REST base
+security:
+- apiKeyHeader: []
+- apiKeyQuery: []
+tags:
+- name: Extractor
+  description: Extract textual sections (items) from 10-K, 10-Q, and 8-K filings.
+paths:
+  /extractor:
+    get:
+      operationId: extractFilingSection
+      tags:
+      - Extractor
+      summary: Extract a section (item) from a 10-K, 10-Q, or 8-K
+      description: Extract a single textual section from a 10-K, 10-Q, or 8-K filing - for example 10-K Item 1A (Risk Factors) or Item 7 (MD&A) - returning clean plain text or lightly formatted HTML.
+      parameters:
+      - name: url
+        in: query
+        required: true
+        description: Full URL of the filing document on SEC EDGAR.
+        schema:
+          type: string
+      - name: item
+        in: query
+        required: true
+        description: Section identifier. 10-K items include 1, 1A, 1B, 1C, 2, 3, 4, 5, 6, 7, 7A, 8, 9, 9A, 9B, 10-15. 10-Q items include part1item1..part2item6. 8-K items include 1-1..9-1 and signature.
+        schema:
+          type: string
+      - name: type
+        in: query
+        required: false
+        description: Response format.
+        schema:
+          type: string
+          enum:
+          - text
+          - html
+          default: text
+      - name: token
+        in: query
+        required: false
+        description: API key (alternative to the Authorization header).
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Extracted section content.
+          content:
+            text/plain:
+              schema:
+                type: string
+            text/html:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed directly in the Authorization header (no `Bearer` prefix), e.g. `Authorization: YOUR_API_KEY`.'
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: API key passed as the `token` query parameter.

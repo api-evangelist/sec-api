@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: SEC API (sec-api.io) REST Extractor Full-Text Search API
+  description: 'REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.
+
+    Authentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.'
+  version: '1.0'
+  contact:
+    name: SEC API
+    url: https://sec-api.io
+  license:
+    name: API documentation - SEC API Terms of Service
+    url: https://sec-api.io/terms-of-service
+servers:
+- url: https://api.sec-api.io
+  description: SEC API REST base
+security:
+- apiKeyHeader: []
+- apiKeyQuery: []
+tags:
+- name: Full-Text Search
+  description: Keyword and phrase search over filing bodies and exhibits since 2001.
+paths:
+  /full-text-search:
+    post:
+      operationId: fullTextSearch
+      tags:
+      - Full-Text Search
+      summary: Full-text search across filings and exhibits
+      description: Keyword and phrase search across the full text of all EDGAR filings and their exhibits published since 2001. Supports wildcards, Boolean operators, exact phrases, form-type and CIK filters, and a date range. Returns 100 results per page.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FullTextSearchRequest'
+            example:
+              query: '"climate change"'
+              formTypes:
+              - 8-K
+              - 10-K
+              startDate: '2024-01-01'
+              endDate: '2024-12-31'
+              page: '1'
+      responses:
+        '200':
+          description: Matching filing documents with metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullTextSearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
+  schemas:
+    FullTextSearchResponse:
+      type: object
+      properties:
+        total:
+          type: object
+          properties:
+            value:
+              type: integer
+            relation:
+              type: string
+        filings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filing'
+    Filing:
+      type: object
+      properties:
+        id:
+          type: string
+        accessionNo:
+          type: string
+        formType:
+          type: string
+        filedAt:
+          type: string
+          format: date-time
+        cik:
+          type: string
+        ticker:
+          type: string
+        companyName:
+          type: string
+        entities:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        documentFormatFiles:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        dataFiles:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    FullTextSearchRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: Search term(s), supporting wildcards, Boolean operators, and exact phrases.
+        formTypes:
+          type: array
+          description: Optional list of EDGAR form types to filter on.
+          items:
+            type: string
+        startDate:
+          type: string
+          description: Start of the date range, yyyy-mm-dd.
+        endDate:
+          type: string
+          description: End of the date range, yyyy-mm-dd.
+        ciks:
+          type: array
+          description: Optional list of CIKs to target.
+          items:
+            type: string
+        page:
+          type: string
+          description: Page number for pagination. 100 results per page. Default 1.
+          default: '1'
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed directly in the Authorization header (no `Bearer` prefix), e.g. `Authorization: YOUR_API_KEY`.'
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: API key passed as the `token` query parameter.

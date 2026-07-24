@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: SEC API (sec-api.io) REST Extractor Insider Trading API
+  description: 'REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.
+
+    Authentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.'
+  version: '1.0'
+  contact:
+    name: SEC API
+    url: https://sec-api.io
+  license:
+    name: API documentation - SEC API Terms of Service
+    url: https://sec-api.io/terms-of-service
+servers:
+- url: https://api.sec-api.io
+  description: SEC API REST base
+security:
+- apiKeyHeader: []
+- apiKeyQuery: []
+tags:
+- name: Insider Trading
+  description: Structured insider transactions from Form 3, 4, and 5.
+paths:
+  /insider-trading:
+    post:
+      operationId: queryInsiderTrading
+      tags:
+      - Insider Trading
+      summary: Query insider transactions (Form 3/4/5)
+      description: Search structured insider transaction data parsed from SEC Form 3, 4, and 5 filings using Lucene syntax over any field. Returns issuer, reporting owner and relationship, non-derivative and derivative transactions, prices, share counts, post-transaction holdings, and footnotes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            example:
+              query: issuer.tradingSymbol:TSLA
+              from: '0'
+              size: '50'
+              sort:
+              - filedAt:
+                  order: desc
+      responses:
+        '200':
+          description: Matching insider transactions.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: Search criteria in Lucene syntax following the field:value format. Maximum 3500 characters.
+        from:
+          type: string
+          description: Zero-based start position for pagination. Default 0, max 10000.
+          default: '0'
+        size:
+          type: string
+          description: Number of results per request. Default 50, max 50.
+          default: '50'
+        sort:
+          type: array
+          description: Sort configuration. Defaults to filedAt descending.
+          items:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed directly in the Authorization header (no `Bearer` prefix), e.g. `Authorization: YOUR_API_KEY`.'
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: API key passed as the `token` query parameter.

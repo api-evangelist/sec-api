@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: SEC API (sec-api.io) REST Extractor Form 13F API
+  description: 'REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.
+
+    Authentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.'
+  version: '1.0'
+  contact:
+    name: SEC API
+    url: https://sec-api.io
+  license:
+    name: API documentation - SEC API Terms of Service
+    url: https://sec-api.io/terms-of-service
+servers:
+- url: https://api.sec-api.io
+  description: SEC API REST base
+security:
+- apiKeyHeader: []
+- apiKeyQuery: []
+tags:
+- name: Form 13F
+  description: Institutional investment manager holdings and cover pages.
+paths:
+  /form-13f/holdings:
+    post:
+      operationId: query13FHoldings
+      tags:
+      - Form 13F
+      summary: Query Form 13F holdings information tables
+      description: Search quarterly portfolio holdings of institutional investment managers from Form 13F filings using Lucene syntax. Returns the holdings information table for each matching filing - CUSIP, ticker, number of shares, and dollar value per position.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            example:
+              query: accessionNo:"0001067983-23-000012"
+              from: '0'
+              size: '50'
+      responses:
+        '200':
+          description: Matching 13F filings with holdings arrays.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /form-13f/cover-pages:
+    post:
+      operationId: query13FCoverPages
+      tags:
+      - Form 13F
+      summary: Query Form 13F cover pages
+      description: Search Form 13F cover-page metadata (manager, report period, filing details) using Lucene syntax over any field.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            example:
+              query: filedAt:[2024-01-01 TO 2024-03-31]
+              from: '0'
+              size: '50'
+      responses:
+        '200':
+          description: Matching 13F cover pages.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: Search criteria in Lucene syntax following the field:value format. Maximum 3500 characters.
+        from:
+          type: string
+          description: Zero-based start position for pagination. Default 0, max 10000.
+          default: '0'
+        size:
+          type: string
+          description: Number of results per request. Default 50, max 50.
+          default: '50'
+        sort:
+          type: array
+          description: Sort configuration. Defaults to filedAt descending.
+          items:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed directly in the Authorization header (no `Bearer` prefix), e.g. `Authorization: YOUR_API_KEY`.'
+    apiKeyQuery:
+      type: apiKey
+      in: query
+      name: token
+      description: API key passed as the `token` query parameter.
