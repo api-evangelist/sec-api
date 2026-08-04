@@ -1,0 +1,24 @@
+{
+  "provider": "sec-api",
+  "sources": [
+    "sec-api-extractor-api-openapi.yml",
+    "sec-api-filing-query-api-openapi.yml",
+    "sec-api-form-13f-api-openapi.yml",
+    "sec-api-full-text-search-api-openapi.yml",
+    "sec-api-insider-trading-api-openapi.yml",
+    "sec-api-xbrl-api-openapi.yml"
+  ],
+  "outputs": [
+    "sec-api-extractor-api-openapi.yml",
+    "sec-api-filing-query-api-openapi.yml",
+    "sec-api-form-13f-api-openapi.yml",
+    "sec-api-full-text-search-api-openapi.yml",
+    "sec-api-insider-trading-api-openapi.yml",
+    "sec-api-xbrl-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
