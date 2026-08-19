@@ -1,0 +1,242 @@
+{
+  "item": [
+    {
+      "id": "875b5485-620d-42cf-b684-6a2f99b14df3",
+      "name": "Filing Query",
+      "description": {
+        "content": "Search 18M+ EDGAR filings by metadata using Lucene syntax.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f6e3561c-8e83-4f4f-bc26-161ec694fd2b",
+          "name": "Search EDGAR filings by metadata",
+          "request": {
+            "name": "Search EDGAR filings by metadata",
+            "description": {
+              "content": "Search and filter EDGAR filings (1993-present) across 400+ form types using a Lucene query over filing metadata (formType, ticker, cik, companyName, filedAt, and more). Returns matching filing metadata with document URLs, entities, and data files.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"key_0\": false,\n      \"key_1\": 720.3463422545298,\n      \"key_2\": \"string\"\n    },\n    {\n      \"key_0\": 9569,\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ca3a9a58-aace-4626-bdc4-2ed4ca241596",
+              "name": "Matching filings with metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"formType:\\\"10-Q\\\"\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"filedAt\": {\n        \"order\": \"desc\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": {\n    \"value\": 7676,\n    \"relation\": \"string\"\n  },\n  \"filings\": [\n    {\n      \"id\": \"string\",\n      \"accessionNo\": \"string\",\n      \"formType\": \"string\",\n      \"filedAt\": \"2010-04-13T12:57:17.150Z\",\n      \"cik\": \"string\",\n      \"ticker\": \"string\",\n      \"companyName\": \"string\",\n      \"entities\": [\n        {\n          \"key_0\": 8030\n        },\n        {\n          \"key_0\": 9887.47504474309\n        }\n      ],\n      \"documentFormatFiles\": [\n        {\n          \"key_0\": true,\n          \"key_1\": 2149.3832108975075\n        },\n        {\n          \"key_0\": true\n        }\n      ],\n      \"dataFiles\": [\n        {\n          \"key_0\": true,\n          \"key_1\": 309\n        },\n        {\n          \"key_0\": true,\n          \"key_1\": 8922\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"accessionNo\": \"string\",\n      \"formType\": \"string\",\n      \"filedAt\": \"2018-12-22T04:13:09.615Z\",\n      \"cik\": \"string\",\n      \"ticker\": \"string\",\n      \"companyName\": \"string\",\n      \"entities\": [\n        {\n          \"key_0\": true\n        },\n        {\n          \"key_0\": false,\n          \"key_1\": 5979,\n          \"key_2\": \"string\"\n        }\n      ],\n      \"documentFormatFiles\": [\n        {\n          \"key_0\": true\n        },\n        {\n          \"key_0\": false,\n          \"key_1\": true,\n          \"key_2\": \"string\"\n        }\n      ],\n      \"dataFiles\": [\n        {\n          \"key_0\": 2782,\n          \"key_1\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "195e2e88-7f9d-4aa5-9e73-0dd767da10a9",
+              "name": "Missing or invalid API token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"formType:\\\"10-Q\\\"\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"filedAt\": {\n        \"order\": \"desc\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "72899ed5-a84b-4d12-a854-373ef9c923f6",
+              "name": "Rate limit exceeded for your plan.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"formType:\\\"10-Q\\\"\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"filedAt\": {\n        \"order\": \"desc\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sec-api.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c4bf2400-fbf8-430f-8f41-0dcb4a5ba9ce",
+    "name": "SEC API (sec-api.io) REST Extractor Filing Query API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.\nAuthentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.\n\nContact Support:\n Name: SEC API",
+      "type": "text/plain"
+    }
+  }
+}

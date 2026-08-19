@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SEC API (sec-api.io) REST Extractor Filing Query API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Filing Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search EDGAR filings by metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search and filter EDGAR filings (1993-present) across 400+ form types using a Lucene query over filing metadata (formType, ticker, cik, companyName, filedAt, and more). Returns matching filing metadata with document URLs, entities, and data files."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SEC API (sec-api.io) REST Extractor API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Extractor",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Extract a section (item) from a 10-K, 10-Q, or 8-K",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sec-api.io/extractor",
+            "params": [
+              {
+                "name": "url",
+                "value": "",
+                "type": "query",
+                "description": "Full URL of the filing document on SEC EDGAR."
+              },
+              {
+                "name": "item",
+                "value": "",
+                "type": "query",
+                "description": "Section identifier. 10-K items include 1, 1A, 1B, 1C, 2, 3, 4, 5, 6, 7, 7A, 8, 9, 9A, 9B, 10-15. 10-Q items include part1item1..part2item6. 8-K items include 1-1..9-1 and signature."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Response format."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "API key (alternative to the Authorization header)."
+              }
+            ]
+          },
+          "docs": "Extract a single textual section from a 10-K, 10-Q, or 8-K filing - for example 10-K Item 1A (Risk Factors) or Item 7 (MD&A) - returning clean plain text or lightly formatted HTML."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

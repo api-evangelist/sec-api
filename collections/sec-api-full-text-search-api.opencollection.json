@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SEC API (sec-api.io) REST Extractor Full-Text Search API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Full-Text Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Full-text search across filings and exhibits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sec-api.io/full-text-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Keyword and phrase search across the full text of all EDGAR filings and their exhibits published since 2001. Supports wildcards, Boolean operators, exact phrases, form-type and CIK filters, and a date range. Returns 100 results per page."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

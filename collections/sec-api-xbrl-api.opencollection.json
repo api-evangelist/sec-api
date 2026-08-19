@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SEC API (sec-api.io) REST Extractor XBRL API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "XBRL",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Convert filing XBRL to JSON",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sec-api.io/xbrl-to-json",
+            "params": [
+              {
+                "name": "htm-url",
+                "value": "",
+                "type": "query",
+                "description": "URL of the filing's primary document, ending in .htm or .html."
+              },
+              {
+                "name": "xbrl-url",
+                "value": "",
+                "type": "query",
+                "description": "Direct URL of the filing's XBRL instance file, ending in .xml."
+              },
+              {
+                "name": "accession-no",
+                "value": "",
+                "type": "query",
+                "description": "Filing accession number, e.g. 0001564590-21-004599."
+              }
+            ]
+          },
+          "docs": "Parse the XBRL financial data embedded in a filing into standardized JSON (income statement, balance sheet, cash flow, cover page, and custom items). Supply exactly one of htm-url, xbrl-url, or accession-no."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

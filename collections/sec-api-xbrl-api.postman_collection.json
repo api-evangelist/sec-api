@@ -1,0 +1,263 @@
+{
+  "item": [
+    {
+      "id": "2fe3de0a-f2a7-436a-87e1-c0c01cb66999",
+      "name": "XBRL",
+      "description": {
+        "content": "Convert XBRL financial data in filings to standardized JSON.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bf4ba52d-b0b1-4f86-9abc-ecbf13d95d4c",
+          "name": "Convert filing XBRL to JSON",
+          "request": {
+            "name": "Convert filing XBRL to JSON",
+            "description": {
+              "content": "Parse the XBRL financial data embedded in a filing into standardized JSON (income statement, balance sheet, cash flow, cover page, and custom items). Supply exactly one of htm-url, xbrl-url, or accession-no.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "xbrl-to-json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "htm-url",
+                  "value": "<string>",
+                  "description": "URL of the filing's primary document, ending in .htm or .html."
+                },
+                {
+                  "disabled": false,
+                  "key": "xbrl-url",
+                  "value": "<string>",
+                  "description": "Direct URL of the filing's XBRL instance file, ending in .xml."
+                },
+                {
+                  "disabled": false,
+                  "key": "accession-no",
+                  "value": "<string>",
+                  "description": "Filing accession number, e.g. 0001564590-21-004599."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "666c353d-15d8-4b7d-961f-cc473a621f89",
+              "name": "XBRL financial data as JSON, organized by statement.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "xbrl-to-json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "htm-url",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xbrl-url",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accession-no",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d983c85-3e00-4013-a4cc-335c75bf1461",
+              "name": "Missing or invalid API token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "xbrl-to-json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "htm-url",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xbrl-url",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accession-no",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aa4ffa0f-8605-4955-ad21-e487c2f5a000",
+              "name": "Rate limit exceeded for your plan.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "xbrl-to-json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "htm-url",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "xbrl-url",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accession-no",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sec-api.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "53b460f5-8bcc-4726-a80a-ef6dc11efce4",
+    "name": "SEC API (sec-api.io) REST Extractor XBRL API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.\nAuthentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.\n\nContact Support:\n Name: SEC API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "item": [
+    {
+      "id": "ea5b36a7-4241-4804-88e5-f577c19c5a11",
+      "name": "Insider Trading",
+      "description": {
+        "content": "Structured insider transactions from Form 3, 4, and 5.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a545b1d0-eb5c-4ade-9b49-b4737fc3f00a",
+          "name": "Query insider transactions (Form 3/4/5)",
+          "request": {
+            "name": "Query insider transactions (Form 3/4/5)",
+            "description": {
+              "content": "Search structured insider transaction data parsed from SEC Form 3, 4, and 5 filings using Lucene syntax over any field. Returns issuer, reporting owner and relationship, non-derivative and derivative transactions, prices, share counts, post-transaction holdings, and footnotes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "insider-trading"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"key_0\": 3892.3341657552546\n    },\n    {\n      \"key_0\": 2731,\n      \"key_1\": 9262.343686203798\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "47723368-354f-4391-9135-e47ebd958834",
+              "name": "Matching insider transactions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "insider-trading"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"issuer.tradingSymbol:TSLA\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"filedAt\": {\n        \"order\": \"desc\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": 4246.96570955881\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3dbbacc5-2b9e-4e54-b92c-73dbbbeb5a31",
+              "name": "Missing or invalid API token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "insider-trading"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"issuer.tradingSymbol:TSLA\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"filedAt\": {\n        \"order\": \"desc\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6786cd13-08fc-44b6-8fe2-45cf9b5e21fd",
+              "name": "Rate limit exceeded for your plan.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "insider-trading"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"issuer.tradingSymbol:TSLA\",\n  \"from\": \"0\",\n  \"size\": \"50\",\n  \"sort\": [\n    {\n      \"filedAt\": {\n        \"order\": \"desc\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sec-api.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "05bec8db-6f0a-4779-85dc-88560578ea2d",
+    "name": "SEC API (sec-api.io) REST Extractor Insider Trading API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.\nAuthentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.\n\nContact Support:\n Name: SEC API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "item": [
+    {
+      "id": "197b02c5-78f5-4cc2-92f5-245716b47c1b",
+      "name": "Full-Text Search",
+      "description": {
+        "content": "Keyword and phrase search over filing bodies and exhibits since 2001.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "756e99d1-6d73-409e-b84e-a9ad87acf47e",
+          "name": "Full-text search across filings and exhibits",
+          "request": {
+            "name": "Full-text search across filings and exhibits",
+            "description": {
+              "content": "Keyword and phrase search across the full text of all EDGAR filings and their exhibits published since 2001. Supports wildcards, Boolean operators, exact phrases, form-type and CIK filters, and a date range. Returns 100 results per page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "full-text-search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"formTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"ciks\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"page\": \"1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a5d1fd84-b440-43d5-bfc3-d8e802d44ade",
+              "name": "Matching filing documents with metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "full-text-search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"\\\"climate change\\\"\",\n  \"formTypes\": [\n    \"8-K\",\n    \"10-K\"\n  ],\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-12-31\",\n  \"page\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total\": {\n    \"value\": 7788,\n    \"relation\": \"string\"\n  },\n  \"filings\": [\n    {\n      \"id\": \"string\",\n      \"accessionNo\": \"string\",\n      \"formType\": \"string\",\n      \"filedAt\": \"1960-03-20T02:46:54.883Z\",\n      \"cik\": \"string\",\n      \"ticker\": \"string\",\n      \"companyName\": \"string\",\n      \"entities\": [\n        {\n          \"key_0\": 2846.514037316835\n        },\n        {\n          \"key_0\": \"string\",\n          \"key_1\": true\n        }\n      ],\n      \"documentFormatFiles\": [\n        {\n          \"key_0\": \"string\",\n          \"key_1\": true\n        },\n        {\n          \"key_0\": 9038.098959471308,\n          \"key_1\": true\n        }\n      ],\n      \"dataFiles\": [\n        {\n          \"key_0\": 5249.752293068487,\n          \"key_1\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"accessionNo\": \"string\",\n      \"formType\": \"string\",\n      \"filedAt\": \"2011-10-29T00:58:44.331Z\",\n      \"cik\": \"string\",\n      \"ticker\": \"string\",\n      \"companyName\": \"string\",\n      \"entities\": [\n        {\n          \"key_0\": 9018.13500093161,\n          \"key_1\": true\n        },\n        {\n          \"key_0\": 2710.2085617382354,\n          \"key_1\": true\n        }\n      ],\n      \"documentFormatFiles\": [\n        {\n          \"key_0\": 2130.063676359446,\n          \"key_1\": 4569.692254285096,\n          \"key_2\": false,\n          \"key_3\": 3385.0003948597605\n        },\n        {\n          \"key_0\": false,\n          \"key_1\": 6755.0618489655735\n        }\n      ],\n      \"dataFiles\": [\n        {\n          \"key_0\": \"string\",\n          \"key_1\": true,\n          \"key_2\": true\n        },\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12e1caf9-0462-47e8-9a28-07ec161d34d0",
+              "name": "Missing or invalid API token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "full-text-search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"\\\"climate change\\\"\",\n  \"formTypes\": [\n    \"8-K\",\n    \"10-K\"\n  ],\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-12-31\",\n  \"page\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2166ce17-3118-480f-99fc-ee4fa09126a4",
+              "name": "Rate limit exceeded for your plan.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "full-text-search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"\\\"climate change\\\"\",\n  \"formTypes\": [\n    \"8-K\",\n    \"10-K\"\n  ],\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2024-12-31\",\n  \"page\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sec-api.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4a5ab51b-7fc6-444f-8c5a-2db956dc1095",
+    "name": "SEC API (sec-api.io) REST Extractor Full-Text Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST surface of SEC API (sec-api.io), a commercial developer platform that turns the U.S. SEC EDGAR system into fast, queryable APIs. Covers 18+ million filings back to 1993 across 400+ form types. This document models the core REST endpoints - Filing Query, Full-Text Search, XBRL-to-JSON, Extractor, Insider Trading (Form 3/4/5), and Form 13F institutional holdings. The real-time Filing Stream API is a WebSocket surface and is modeled separately in asyncapi/sec-api-asyncapi.yml.\nAuthentication is a single API token, obtained from your sec-api.io account. Pass it either as an `Authorization: YOUR_API_KEY` header or as a `?token=YOUR_API_KEY` query parameter. Endpoints, request shapes, and parameters were grounded against the live sec-api.io documentation on 2026-07-11.\n\nContact Support:\n Name: SEC API",
+      "type": "text/plain"
+    }
+  }
+}
