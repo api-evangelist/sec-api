@@ -13,6 +13,18 @@ description: SEC API (sec-api.io) is a commercial developer platform that turns 
   filings to clients over a WebSocket connection as soon as they hit EDGAR. Access
   is via a single API token passed as an Authorization header or a token query
   parameter.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: open
