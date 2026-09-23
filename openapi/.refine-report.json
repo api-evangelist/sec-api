@@ -1,12 +1,7 @@
 {
   "provider": "sec-api",
   "sources": [
-    "sec-api-extractor-api-openapi.yml",
-    "sec-api-filing-query-api-openapi.yml",
-    "sec-api-form-13f-api-openapi.yml",
-    "sec-api-full-text-search-api-openapi.yml",
-    "sec-api-insider-trading-api-openapi.yml",
-    "sec-api-xbrl-api-openapi.yml"
+    "_original/sec-api-openapi.yml"
   ],
   "outputs": [
     "sec-api-extractor-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sec-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "sec-api-extractor-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sec-api-filing-query-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sec-api-form-13f-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sec-api-full-text-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sec-api-insider-trading-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sec-api-xbrl-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
