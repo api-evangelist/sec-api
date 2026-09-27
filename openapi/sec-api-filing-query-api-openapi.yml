@@ -52,6 +52,28 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    QueryRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: Search criteria in Lucene syntax following the field:value format. Maximum 3500 characters.
+        from:
+          type: string
+          description: Zero-based start position for pagination. Default 0, max 10000.
+          default: '0'
+        size:
+          type: string
+          description: Number of results per request. Default 50, max 50.
+          default: '50'
+        sort:
+          type: array
+          description: Sort configuration. Defaults to filedAt descending.
+          items:
+            type: object
+            additionalProperties: true
     Filing:
       type: object
       properties:
@@ -85,28 +107,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    QueryRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-          description: Search criteria in Lucene syntax following the field:value format. Maximum 3500 characters.
-        from:
-          type: string
-          description: Zero-based start position for pagination. Default 0, max 10000.
-          default: '0'
-        size:
-          type: string
-          description: Number of results per request. Default 50, max 50.
-          default: '50'
-        sort:
-          type: array
-          description: Sort configuration. Defaults to filedAt descending.
-          items:
-            type: object
-            additionalProperties: true
     FilingQueryResponse:
       type: object
       properties:
@@ -122,10 +122,10 @@ components:
           items:
             $ref: '#/components/schemas/Filing'
   responses:
-    Unauthorized:
-      description: Missing or invalid API token.
     RateLimited:
       description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
   securitySchemes:
     apiKeyHeader:
       type: apiKey

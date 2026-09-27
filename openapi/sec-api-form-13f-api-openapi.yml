@@ -78,6 +78,11 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API token.
+    RateLimited:
+      description: Rate limit exceeded for your plan.
   schemas:
     QueryRequest:
       type: object
@@ -101,11 +106,6 @@ components:
           items:
             type: object
             additionalProperties: true
-  responses:
-    Unauthorized:
-      description: Missing or invalid API token.
-    RateLimited:
-      description: Rate limit exceeded for your plan.
   securitySchemes:
     apiKeyHeader:
       type: apiKey
