@@ -52,28 +52,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    QueryRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-          description: Search criteria in Lucene syntax following the field:value format. Maximum 3500 characters.
-        from:
-          type: string
-          description: Zero-based start position for pagination. Default 0, max 10000.
-          default: '0'
-        size:
-          type: string
-          description: Number of results per request. Default 50, max 50.
-          default: '50'
-        sort:
-          type: array
-          description: Sort configuration. Defaults to filedAt descending.
-          items:
-            type: object
-            additionalProperties: true
     Filing:
       type: object
       properties:
@@ -121,6 +99,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Filing'
+    QueryRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: Search criteria in Lucene syntax following the field:value format. Maximum 3500 characters.
+        from:
+          type: string
+          description: Zero-based start position for pagination. Default 0, max 10000.
+          default: '0'
+        size:
+          type: string
+          description: Number of results per request. Default 50, max 50.
+          default: '50'
+        sort:
+          type: array
+          description: Sort configuration. Defaults to filedAt descending.
+          items:
+            type: object
+            additionalProperties: true
   responses:
     RateLimited:
       description: Rate limit exceeded for your plan.
