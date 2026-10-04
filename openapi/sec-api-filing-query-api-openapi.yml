@@ -122,10 +122,10 @@ components:
             type: object
             additionalProperties: true
   responses:
-    RateLimited:
-      description: Rate limit exceeded for your plan.
     Unauthorized:
       description: Missing or invalid API token.
+    RateLimited:
+      description: Rate limit exceeded for your plan.
   securitySchemes:
     apiKeyHeader:
       type: apiKey
