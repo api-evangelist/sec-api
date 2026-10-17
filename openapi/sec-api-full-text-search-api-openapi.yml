@@ -53,6 +53,34 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    FullTextSearchRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: Search term(s), supporting wildcards, Boolean operators, and exact phrases.
+        formTypes:
+          type: array
+          description: Optional list of EDGAR form types to filter on.
+          items:
+            type: string
+        startDate:
+          type: string
+          description: Start of the date range, yyyy-mm-dd.
+        endDate:
+          type: string
+          description: End of the date range, yyyy-mm-dd.
+        ciks:
+          type: array
+          description: Optional list of CIKs to target.
+          items:
+            type: string
+        page:
+          type: string
+          description: Page number for pagination. 100 results per page. Default 1.
+          default: '1'
     Filing:
       type: object
       properties:
@@ -100,39 +128,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Filing'
-    FullTextSearchRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-          description: Search term(s), supporting wildcards, Boolean operators, and exact phrases.
-        formTypes:
-          type: array
-          description: Optional list of EDGAR form types to filter on.
-          items:
-            type: string
-        startDate:
-          type: string
-          description: Start of the date range, yyyy-mm-dd.
-        endDate:
-          type: string
-          description: End of the date range, yyyy-mm-dd.
-        ciks:
-          type: array
-          description: Optional list of CIKs to target.
-          items:
-            type: string
-        page:
-          type: string
-          description: Page number for pagination. 100 results per page. Default 1.
-          default: '1'
   responses:
-    Unauthorized:
-      description: Missing or invalid API token.
     RateLimited:
       description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
   securitySchemes:
     apiKeyHeader:
       type: apiKey

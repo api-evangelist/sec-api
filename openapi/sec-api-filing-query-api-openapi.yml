@@ -51,6 +51,11 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded for your plan.
+    Unauthorized:
+      description: Missing or invalid API token.
   schemas:
     Filing:
       type: object
@@ -85,20 +90,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    FilingQueryResponse:
-      type: object
-      properties:
-        total:
-          type: object
-          properties:
-            value:
-              type: integer
-            relation:
-              type: string
-        filings:
-          type: array
-          items:
-            $ref: '#/components/schemas/Filing'
     QueryRequest:
       type: object
       required:
@@ -121,11 +112,20 @@ components:
           items:
             type: object
             additionalProperties: true
-  responses:
-    Unauthorized:
-      description: Missing or invalid API token.
-    RateLimited:
-      description: Rate limit exceeded for your plan.
+    FilingQueryResponse:
+      type: object
+      properties:
+        total:
+          type: object
+          properties:
+            value:
+              type: integer
+            relation:
+              type: string
+        filings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filing'
   securitySchemes:
     apiKeyHeader:
       type: apiKey
